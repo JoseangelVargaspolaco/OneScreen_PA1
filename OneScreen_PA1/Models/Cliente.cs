@@ -27,8 +27,8 @@ namespace PantallaOne.Models
         [RegularExpression(@"^\d{3}[- ]?\d{3}[- ]?\d{4}$",ErrorMessage = "Formato inválido. 000-000-0000")]
         public string Celular { get; set; }
 
-        [Required(ErrorMessage = "Ingrese una dirección.")]
-        public string Direccion { get; set; }
+        [Required(ErrorMessage = "Ingrese una Ciudad.")]
+        public string Ciudad { get; set; }
 
         [Required(ErrorMessage = "Ingrese un numero de cédula.")]
         [RegularExpression(@"^\d{3}[- ]?\d{7}[- ]?\d{1}$",ErrorMessage = "Formato inválido 000-0000000-0")]
@@ -50,7 +50,7 @@ namespace PantallaOne.Models
             Email = string.Empty;
             Telefono = string.Empty;
             Celular = string.Empty;
-            Direccion = string.Empty;
+            Ciudad = string.Empty;
             Cedula = string.Empty;
             FechaNacimiento = DateTime.Now;
             

@@ -2,6 +2,7 @@ using Blazored.Toast;
 using Microsoft.EntityFrameworkCore;
 using PantallaOne.DAL;
 using PantallaOne.BLL;
+using Radzen;
 
 var builder = WebApplication.CreateBuilder(args);
 var DefaultConnection = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -11,6 +12,7 @@ options.UseSqlite(DefaultConnection)
 );
 
 builder.Services.AddBlazoredToast();
+builder.Services.AddScoped<NotificationService>();
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();

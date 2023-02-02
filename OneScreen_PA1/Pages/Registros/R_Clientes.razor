@@ -13,143 +13,125 @@
 <EditForm Model="clientes" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
 
-    <div class="card shadow-lg">
+    <div class="rz-border-radius-4 shadow bg-white d-block p-2 border border-4"
+        style="margin: auto; width: 800px; height: 670px;">
+        <div class="rz-border-radius-4 shadow card-header text-center">
+            <h3>Registro Clientes</h3>
+        </div>
 
-        <div class="card ">
-
-            <div class="card-header ">
-
-                <h3 class="card-title">Registro Clientes <div class="oi oi-people"></div>
-                </h3>
-            </div>
-
-            <div class="card-body">
-
-                <div class="form-group col-4">
-                    <div class="input-group">
-                        <div class="input-group-append col">
-                            <a type="button" class="btn btn-warning input-group-text " data-toggle="tooltip"
-                                data-placement="right" title="Ingresar a la consulta" href="lista">Clientes <span
-                                    class="oi oi-people">
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <hr>
+        <div class="rz-border-radius-4 shadow border border-4 card card-body" style="width: 780px; height: 500px;">
+            <div class="container overflow-hidden">
+                <form class="row gy-3">
+                    <p />
+                    @*...................... Nombre ......................*@
 
 
-                @*...................... Nombre ......................*@
-
-                <div class="row">
-
-                    <div class="form-group col-3">
-                        <label>Nombre</label>
-                        <InputText @bind-Value="clientes.Nombre" placeholder="Nombre cliente" class="form-control" />
+                    <div class="form-group col-1" style="width: 360px; height: 80px;">
+                        <label class="form-label">Nombre</label>
+                        <InputText @bind-Value="clientes.Nombre" placeholder="Ingresar nombre"
+                            class="rz-border-radius-2 shadow shadow form-control" />
                         <ValidationMessage For="@(() => clientes.Nombre)" />
                     </div>
+                    <br />
 
                     @*...................... Email ......................*@
 
-                    <div class="form-group col-3">
-                        <label>Email</label>
+                    <div class="form-group col-3" style="width: 360px; height: 80px;">
+                        <label class="form-label">Email</label>
                         <InputText @bind-Value="clientes.Email" placeholder="Correro electronico"
-                            class="form-control" />
+                            class="rz-border-radius-2 shadow shadow form-control" />
                         <ValidationMessage For="@(() => clientes.Email)" />
                     </div>
-
+                    <br />
                     @*...................... Cedula ......................*@
 
-                    <div class="row">
+                    <div class="form-group col-3" style="width: 360px; height: 80px;">
+                        <label class="form-label">Cédula</label>
+                        <InputText @bind-Value="clientes.Cedula" placeholder="Numero de cédula"
+                            class="rz-border-radius-2 shadow shadow form-control" />
+                        <ValidationMessage For="@(() => clientes.Cedula)" />
+                    </div>
+                    @*...................... Ciudad ......................*@
 
-                        <div class="form-group col-3">
-                            <label>Cédula</label>
-                            <InputText @bind-Value="clientes.Cedula" placeholder="Numero de cédula"
-                                class="form-control" />
-                            <ValidationMessage For="@(() => clientes.Cedula)" />
-                        </div>
-
-                        @*...................... Direccion ......................*@
-
-                        <div class="form-group col-3">
-                            <label>Dirección <div class="oi oi-map-marker"></div></label>
-                            <InputText @bind-Value="clientes.Direccion" placeholder="Dirección ciudad"
-                                class="form-control" />
-                            <ValidationMessage For="@(() => clientes.Direccion)" />
-                        </div>
-
-
-
+                    <div class="form-group col-3" style="width: 360px; height: 80px;">
+                        <label class="form-label">Ciudad
+                            <div class="oi oi-map-marker" />
+                        </label>
+                        <InputText @bind-Value="clientes.Ciudad" placeholder="Ciudad"
+                            class="rz-border-radius-2 shadow shadow form-control" />
+                        <ValidationMessage For="@(() => clientes.Ciudad)" />
                     </div>
 
-                </div>
-                <br>
+                    @*...................... Telefono ......................*@
 
-                @*...................... Telefono ......................*@
-
-                <div class="row">
-
-                    <div class="form-group col-3">
-                        <label>Teléfono</label>
+                    <div class="form-group col-3" style="width: 360px; height: 80px;">
+                        <label class="form-label">Teléfono</label>
                         <InputText @bind-Value="clientes.Telefono" placeholder="Numero teléfonico"
-                            class="form-control" />
+                            class="rz-border-radius-2 shadow shadow form-control" />
                         <ValidationMessage For="@(() => clientes.Telefono)" />
                     </div>
 
                     @*...................... Celular ......................*@
 
-                    <div class="form-group col-3">
-                        <label>Celular <div class="oi oi-phone"></div></label>
-                        <InputText @bind-Value="clientes.Celular" placeholder="Celular" class="form-control" />
+                    <div class="form-group col-3" style="width: 360px; height: 80px;">
+                        <label class="form-label">Celular <div class="oi oi-phone"></div></label>
+                        <InputText @bind-Value="clientes.Celular" placeholder="Celular"
+                            class="rz-border-radius-2 shadow shadow form-control" />
                         <ValidationMessage For="@(() => clientes.Celular)" />
                     </div>
-                </div>
+
+                    @*...................... Consultar clientes ......................*@
+
+                    <p/>
+                    <p/>
+                    <div class="form-group col-3" style="margin: auto;">
+                        <a class="rz-border-radius-4 shadow border border-4 btn btn-lg btn btn-warning"
+                            data-toggle="tooltip" data-placement="right" title="Ingresar a la consulta"
+                            href="lista">Clientes
+                            <span class="oi oi-people">
+                            </span>
+                        </a>
+                    </div>
+                </form>
             </div>
-            <br>
+        </div>
 
-            @*...................... Botones ......................*@
+        @*...................... Botones ......................*@
 
-            <div class="card-footer">
+        <div class="shadow border border-4 rz-border-radius-4 card-footer d-flex justify-content-center"
+            style="width: 780px; height: 90px;">
+            <div class="btn-group" role="group">
+                <button type="button" style="width: 150px; height: 60px;"
+                    class="rz-border-radius-4 shadow border border-4 btn btn-lg btn-primary" @onclick="Nuevo">
+                    <span class="oi oi-file"> Nuevo</span>
+                </button>
 
-                <div class="form-group text-center" display: inline-block>
+                <button type="submit" style="width: 150px; height: 60px;"
+                    class="rz-border-radius-4 shadow border border-4 btn-lg btn-success">
+                    <span class="oi oi-document"> Guardar</span>
+                </button>
 
-                    <button type="button" class="btn btn-lg btn-primary" @onclick="Nuevo">
-                        <span class="oi oi-file"> Nuevo</span>
-                    </button>
-
-                    <button type="submit" class="btn btn-lg btn-success">
-                        <span class="oi oi-document"> Guardar</span>
-                    </button>
-
-                    <button type="button" class="btn btn-lg btn-danger" @onclick="Eliminar">
-                        <span class="oi oi-trash"> Eliminar</span>
-                    </button>
-                </div>
+                <button type="button" style="width: 150px; height: 60px;"
+                    class="rz-border-radius-4 shadow border border-4 btn btn-lg btn-danger" @onclick="Eliminar">
+                    <span class="oi oi-trash"> Eliminar</span>
+                </button>
             </div>
         </div>
     </div>
-
-
 </EditForm>
 
-@code
-{
+@code {
 
     [Parameter]
     public int ClienteId { get; set; }
 
 #nullable disable // Para quitar el aviso de nulls
-
     Clientes clientes = new Clientes();
 
-
     //-----------------------------------------------------------------------
-
     protected override void OnInitialized()
     {
-
         clientes = new Clientes();
-
 
         clientes.ClienteId = ClienteId;
         Buscar();
