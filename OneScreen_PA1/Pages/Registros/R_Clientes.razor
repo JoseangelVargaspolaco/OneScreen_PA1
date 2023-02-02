@@ -1,0 +1,239 @@
+@page "/clientes"
+
+@page "/clientes/{ClienteId:int}"
+
+@* Registro de los clientes *@
+
+@inject AuthenticationStateProvider Authentication
+
+@inject IToastService Toast
+
+@inject ClientesBLL clientesBLL
+
+<EditForm Model="clientes" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+
+    <div class="card shadow-lg">
+
+        <div class="card ">
+
+            <div class="card-header ">
+
+                <h3 class="card-title">Registro Clientes <div class="oi oi-people"></div>
+                </h3>
+            </div>
+
+            <div class="card-body">
+
+                <div class="form-group col-4">
+                    <div class="input-group">
+                        <div class="input-group-append col">
+                            <a type="button" class="btn btn-warning input-group-text " data-toggle="tooltip"
+                                data-placement="right" title="Ingresar a la consulta" href="lista">Clientes <span
+                                    class="oi oi-people">
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+
+
+                @*...................... Nombre ......................*@
+
+                <div class="row">
+
+                    <div class="form-group col-3">
+                        <label>Nombre</label>
+                        <InputText @bind-Value="clientes.Nombre" placeholder="Nombre cliente" class="form-control" />
+                        <ValidationMessage For="@(() => clientes.Nombre)" />
+                    </div>
+
+                    @*...................... Email ......................*@
+
+                    <div class="form-group col-3">
+                        <label>Email</label>
+                        <InputText @bind-Value="clientes.Email" placeholder="Correro electronico"
+                            class="form-control" />
+                        <ValidationMessage For="@(() => clientes.Email)" />
+                    </div>
+
+                    @*...................... Cedula ......................*@
+
+                    <div class="row">
+
+                        <div class="form-group col-3">
+                            <label>Cédula</label>
+                            <InputText @bind-Value="clientes.Cedula" placeholder="Numero de cédula"
+                                class="form-control" />
+                            <ValidationMessage For="@(() => clientes.Cedula)" />
+                        </div>
+
+                        @*...................... Direccion ......................*@
+
+                        <div class="form-group col-3">
+                            <label>Dirección <div class="oi oi-map-marker"></div></label>
+                            <InputText @bind-Value="clientes.Direccion" placeholder="Dirección ciudad"
+                                class="form-control" />
+                            <ValidationMessage For="@(() => clientes.Direccion)" />
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+                <br>
+
+                @*...................... Telefono ......................*@
+
+                <div class="row">
+
+                    <div class="form-group col-3">
+                        <label>Teléfono</label>
+                        <InputText @bind-Value="clientes.Telefono" placeholder="Numero teléfonico"
+                            class="form-control" />
+                        <ValidationMessage For="@(() => clientes.Telefono)" />
+                    </div>
+
+                    @*...................... Celular ......................*@
+
+                    <div class="form-group col-3">
+                        <label>Celular <div class="oi oi-phone"></div></label>
+                        <InputText @bind-Value="clientes.Celular" placeholder="Celular" class="form-control" />
+                        <ValidationMessage For="@(() => clientes.Celular)" />
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            @*...................... Botones ......................*@
+
+            <div class="card-footer">
+
+                <div class="form-group text-center" display: inline-block>
+
+                    <button type="button" class="btn btn-lg btn-primary" @onclick="Nuevo">
+                        <span class="oi oi-file"> Nuevo</span>
+                    </button>
+
+                    <button type="submit" class="btn btn-lg btn-success">
+                        <span class="oi oi-document"> Guardar</span>
+                    </button>
+
+                    <button type="button" class="btn btn-lg btn-danger" @onclick="Eliminar">
+                        <span class="oi oi-trash"> Eliminar</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</EditForm>
+
+@code
+{
+
+    [Parameter]
+    public int ClienteId { get; set; }
+
+#nullable disable // Para quitar el aviso de nulls
+
+    Clientes clientes = new Clientes();
+
+
+    //-----------------------------------------------------------------------
+
+    protected override void OnInitialized()
+    {
+
+        clientes = new Clientes();
+
+
+        clientes.ClienteId = ClienteId;
+        Buscar();
+    }
+
+    public void Nuevo() // Nuevo cliente
+    {
+        clientes = new Clientes();
+
+    }
+
+    public void Guardar() // Guardar cliente
+    {
+        var cliente2 = clientesBLL.ExisteCedula(clientes.Cedula);
+
+        if (cliente2 == null) //si no existe lo guarda
+        {
+
+            if (clientesBLL.Guardar(clientes))
+            {
+
+                Toast.ShowSuccess($"Cliente: {clientes.Nombre}, Guardado correctamente");
+                clientes = new Clientes();
+            }
+            else
+                Toast.ShowError("No se pudo guardar");
+
+        }
+        else // si existe, no guarda porque esa cedula pertenece a otra persona
+        {
+            if (cliente2.Cedula.ToLower() == clientes.Cedula.ToLower() && cliente2.ClienteId == clientes.ClienteId)
+            {
+                if (clientesBLL.Guardar(clientes))
+                {
+
+                    Toast.ShowSuccess($"Cliente: {clientes.Nombre}, Guardado correctamente");
+                    clientes = new Clientes();
+                }
+
+                else
+                    Toast.ShowError("No fue posible guardar");
+            }
+            else
+            {
+                Toast.ShowError($"Cedula: {clientes.Cedula}, pertenece a otra persona");
+            }
+
+
+        }
+    }
+
+    public void Buscar() // Buscar cliente
+    {
+        if (this.clientes.ClienteId > 0)
+        {
+            var Cliente = clientesBLL.Buscar(clientes.ClienteId);
+
+            if (Cliente != null)
+            {
+                clientes = Cliente;
+
+                Toast.ShowSuccess($"Cliente: {clientes.Nombre}, encontrado ");
+            }
+            else
+            {
+                Toast.ShowWarning($"No existe un cliente con este Id: {clientes.ClienteId}");
+            }
+        }
+    }
+
+    public async Task Eliminar() // Eliminar cliente
+    {
+        var Buscarr = clientesBLL.Buscar(clientes.ClienteId);
+        bool Eliminar;
+        if (Buscarr != Buscarr)
+        {
+            clientes = Buscarr;
+            Toast.ShowSuccess($"Cliente: {clientes.Nombre}, ya existe");
+            Eliminar = await clientesBLL.Eliminar(clientes.ClienteId);
+
+        }
+        else
+        {
+            Eliminar = await clientesBLL.Eliminar(clientes.ClienteId);
+        }
+    }
+}
