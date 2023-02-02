@@ -17,6 +17,86 @@ namespace PantallaOne.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.2");
 
+            modelBuilder.Entity("PantallaOne.Models.Articulos", b =>
+                {
+                    b.Property<int>("ArticuloId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("Cantidad")
+                        .HasColumnType("REAL");
+
+                    b.Property<int>("CategoriaId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Costo")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("TEXT");
+
+                    b.Property<float>("ITBIS")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Precio")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ArticuloId");
+
+                    b.HasIndex("CategoriaId");
+
+                    b.ToTable("Articulo");
+                });
+
+            modelBuilder.Entity("PantallaOne.Models.Categoria", b =>
+                {
+                    b.Property<int>("CategoriaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CategoriaId");
+
+                    b.ToTable("Categoria");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoriaId = 1,
+                            Descripcion = "Bebidas"
+                        },
+                        new
+                        {
+                            CategoriaId = 2,
+                            Descripcion = "Frutas"
+                        },
+                        new
+                        {
+                            CategoriaId = 3,
+                            Descripcion = "Lacteos"
+                        },
+                        new
+                        {
+                            CategoriaId = 4,
+                            Descripcion = "Vegetales"
+                        },
+                        new
+                        {
+                            CategoriaId = 5,
+                            Descripcion = "Carnes"
+                        });
+                });
+
             modelBuilder.Entity("PantallaOne.Models.Clientes", b =>
                 {
                     b.Property<int>("ClienteId")
@@ -56,6 +136,169 @@ namespace PantallaOne.Migrations
                     b.HasKey("ClienteId");
 
                     b.ToTable("Clientes");
+                });
+
+            modelBuilder.Entity("PantallaOne.Models.Pago", b =>
+                {
+                    b.Property<int>("PagoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Metodo")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("PagoId");
+
+                    b.ToTable("Pago");
+
+                    b.HasData(
+                        new
+                        {
+                            PagoId = 1,
+                            Metodo = "Deposito"
+                        },
+                        new
+                        {
+                            PagoId = 2,
+                            Metodo = "Efectivo"
+                        },
+                        new
+                        {
+                            PagoId = 3,
+                            Metodo = "Tarjeta de credito"
+                        });
+                });
+
+            modelBuilder.Entity("PantallaOne.Models.Ventas", b =>
+                {
+                    b.Property<int>("VentaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("Existencia")
+                        .HasColumnType("REAL");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("ITBIS")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("MetodoDePago")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("MontoRestante")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("PagoId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("PagoObtenido")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("SubTotal")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("UnidadesVendidas")
+                        .HasColumnType("REAL");
+
+                    b.HasKey("VentaId");
+
+                    b.HasIndex("PagoId");
+
+                    b.ToTable("Ventas");
+                });
+
+            modelBuilder.Entity("PantallaOne.Models.VentasDetalle", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ArticuloId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("Cantidad")
+                        .HasColumnType("REAL");
+
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Descripcion")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Importe")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("PagoId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("PrecioArticulo")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("VentaId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArticuloId");
+
+                    b.HasIndex("VentaId");
+
+                    b.ToTable("VentasDetalle");
+                });
+
+            modelBuilder.Entity("PantallaOne.Models.Articulos", b =>
+                {
+                    b.HasOne("PantallaOne.Models.Categoria", "Categoria")
+                        .WithMany()
+                        .HasForeignKey("CategoriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Categoria");
+                });
+
+            modelBuilder.Entity("PantallaOne.Models.Ventas", b =>
+                {
+                    b.HasOne("PantallaOne.Models.Pago", "Pago")
+                        .WithMany()
+                        .HasForeignKey("PagoId");
+
+                    b.Navigation("Pago");
+                });
+
+            modelBuilder.Entity("PantallaOne.Models.VentasDetalle", b =>
+                {
+                    b.HasOne("PantallaOne.Models.Articulos", "articulo")
+                        .WithMany("VentasDetalle")
+                        .HasForeignKey("ArticuloId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PantallaOne.Models.Ventas", "venta")
+                        .WithMany("ventasDetalle")
+                        .HasForeignKey("VentaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("articulo");
+
+                    b.Navigation("venta");
+                });
+
+            modelBuilder.Entity("PantallaOne.Models.Articulos", b =>
+                {
+                    b.Navigation("VentasDetalle");
+                });
+
+            modelBuilder.Entity("PantallaOne.Models.Ventas", b =>
+                {
+                    b.Navigation("ventasDetalle");
                 });
 #pragma warning restore 612, 618
         }
