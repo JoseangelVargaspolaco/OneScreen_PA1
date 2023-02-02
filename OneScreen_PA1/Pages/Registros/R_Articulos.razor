@@ -25,23 +25,23 @@
             <div class="container overflow-hidden">
                 <form class="row gy-3">
 
-                    @*...................... Fecha ......................*@
-
-                    <p/>
-                    <p/>
-                    <div class="form-group col-3" style="width: 360px; height: 80px;">
-                        <label class="form-label">Fecha de creación</label>
-                        <InputDate @bind-Value="articulo.FechaCreacion" class="form-control" />
-                        <ValidationMessage For="@(() => articulo.FechaCreacion)" />
-                    </div>
-
                     @*...................... Nombre ......................*@
 
+                    <p/>
+                    <p/>
                     <div class="form-group col-1" style="width: 360px; height: 80px;">
                         <label class="form-label">Nombre</label>
                         <InputText @bind-Value="articulo.Nombre" placeholder="Ingresar nombre"
                             class="rz-border-radius-2 shadow shadow form-control" />
                         <ValidationMessage For="@(() => articulo.Nombre)" />
+                    </div>
+
+                    @*...................... Fecha ......................*@
+
+                    <div class="form-group col-3" style="width: 360px; height: 80px;">
+                        <label class="form-label">Fecha de creación</label>
+                        <InputDate @bind-Value="articulo.FechaCreacion" class="form-control" />
+                        <ValidationMessage For="@(() => articulo.FechaCreacion)" />
                     </div>
 
                     @*...................... Categoria ......................*@
