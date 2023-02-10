@@ -37,11 +37,15 @@ namespace PantallaOne.Models
 
         [Required(ErrorMessage = "Campo ITBIS es obligatorio.")]
         [Range(minimum: 1, maximum: int.MaxValue, ErrorMessage = "Seleccione el % de ITBIS.")]
-        public float ITBIS { get; set; }
+        public float ITBIS { get; set; } = 0.18f;
+        public int SuplidorId { get; set; }
+        public string NombreSuplidor { get; set; }
 
-        public int UsuarioId { get; set; }
 
         //-------------------------------------------------------------------------------------
+
+        [ForeignKey("SuplidorId")]
+        public virtual Suplidor Suplidor { get; set; }
 
         [ForeignKey("CategoriaId")]
         public virtual Categoria Categoria { get; set; }
@@ -52,7 +56,8 @@ namespace PantallaOne.Models
         public Articulos()
         {
             ArticuloId = 0;
-            UsuarioId = 0;
+            SuplidorId = 0;
+            NombreSuplidor = string.Empty;
             Nombre = string.Empty;
             FechaCreacion = DateTime.Now;
             Cantidad = 0;

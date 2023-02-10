@@ -18,7 +18,7 @@
     <div class="rz-border-radius-4 shadow bg-white d-block p-2 border border-4"
         style="margin: auto; width: 800px; height: 670px;">
         <div class="rz-border-radius-4 shadow card-header text-center">
-            <h3>Registro Articulos</h3>
+            <h3>Registro Articulos <span class="oi oi-beaker"></span></h3>
         </div>
 
         <div class="rz-border-radius-4 shadow border border-4 card card-body" style="width: 780px; height: 500px;">
@@ -27,8 +27,8 @@
 
                     @*...................... Nombre ......................*@
 
-                    <p/>
-                    <p/>
+                    <p />
+                    <p />
                     <div class="form-group col-1" style="width: 360px; height: 80px;">
                         <label class="form-label">Nombre</label>
                         <InputText @bind-Value="articulo.Nombre" placeholder="Ingresar nombre"
@@ -70,16 +70,32 @@
 
                     @*...................... Costo / Unidad ......................*@
 
-                    <div class="form-group" style="width: 240px; height: 80px;">
+                    <div class="form-group" style="width: 200px; height: 80px;">
                         <label class="form-label">Costo / Unidad</label>
                         <InputNumber @bind-Value="articulo.Costo"
                             class="rz-border-radius-2 shadow shadow form-control" />
                         <ValidationMessage For="@(() => articulo.Costo)" />
                     </div>
 
-                    @*...................... Precio ......................*@
+                    @*...................... Selección del suplidor ......................*@
 
                     <div class="form-group col-2" style="width: 240px; height: 80px;">
+                        <label class="form-label" >Suplidor<div class="oi oi-sort-ascending"></div></label>
+                        <InputSelect @bind-Value="articulo.SuplidorId" class="rz-border-radius-2 shadow shadow form-control">
+                            <option value="0" disabled selected>Seleccione un suplidor</option>
+                            @foreach (var item in suplodorList)
+                            {
+                                <option value="@item.SuplidorId">@item.NombreSuplidor</option>
+                            }
+                        </InputSelect>
+                        <ValidationMessage For="@(() => articulo.SuplidorId)" />
+                    </div>
+
+                    <br>
+
+                    @*...................... Precio ......................*@
+
+                    <div class="form-group" style="width: 150px; height: 80px;">
                         <label class="form-label">Precio</label>
                         <InputNumber @bind-Value="articulo.Precio"
                             class="rz-border-radius-2 shadow shadow form-control" />
@@ -88,28 +104,24 @@
 
                     @*...................... ITBIS ......................*@
 
-                    <div class="form-group col-md-2" style="width: 240px; height: 80px;">
+                    <div class="form-group col-md-2" style="margin: auto;">
                         <label class="form-label">ITBIS</label>
-                        <InputSelect @bind-Value="articulo.ITBIS"
-                            class="rz-border-radius-2 shadow shadow form-select text-14">
-                            <option value="0" disabled selected>Seleccione un %</option>
-                            <option value="0">0%</option>
-                            <option value="18">18%</option>
-                        </InputSelect>
+                        <input type="number" disabled="true" @bind="articulo.ITBIS"
+                            class="rz-border-radius-2 shadow shadow form-control"/>
                         <ValidationMessage For="@(() => articulo.ITBIS)" />
                     </div>
 
                     @*...................... Consultar Articulo ......................*@
 
                     <p/>
+                    <p/>
                     <div class="form-group col-md-3" style="margin: auto;">
-                        <a class="rz-border-radius-4 shadow border border-4 btn btn-lg btn btn-warning"
-                            data-toggle="tooltip" data-placement="right" title="Ingresar a la consulta" href="listas">Articulos
-                            <span class="oi oi-beaker">
-                            </span>
-                        </a>
+                    <a class="rz-border-radius-4 shadow border border-4 btn btn-lg btn btn-warning"
+                    data-toggle="tooltip" data-placement="right" title="Ingresar a la consulta" href="listas">Articulos
+                    <span class="oi oi-beaker">
+                    </span>
+                    </a>
                     </div>
-
                 </form>
             </div>
         </div>
@@ -136,8 +148,6 @@
             </div>
         </div>
     </div>
-
-
 </EditForm>
 
 @code {
@@ -145,20 +155,20 @@
     [Parameter]
     public int ArticuloId { get; set; }
 
-#nullable disable // Para quitar el aviso de nulls
+    #nullable disable // Para quitar el aviso de nulls
     Articulos articulo = new Articulos();
     List<Categoria> CategoriaList = new List<Categoria>();
+    List<Suplidor> suplodorList = new List<Suplidor>();
 
     //-----------------------------------------------------------------------
 
     protected override async Task OnInitializedAsync()
     {
-
         articulo = new Articulos();
         CategoriaList = await categoriaBLL.GetList(c => true);
         articulo.ArticuloId = ArticuloId;
+        articulo.ITBIS = 0.18f;
         Buscar();
-
     }
 
     public async Task Nuevo() // Nuevo articulo

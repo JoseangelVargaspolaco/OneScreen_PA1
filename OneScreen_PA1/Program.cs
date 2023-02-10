@@ -18,6 +18,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddTransient<ClientesBLL>(); 
 builder.Services.AddTransient<ArticuloBLL>();
+builder.Services.AddTransient<SuplidorBLL>();
 builder.Services.AddTransient<CategoriaBLL>();
 
 var app = builder.Build();

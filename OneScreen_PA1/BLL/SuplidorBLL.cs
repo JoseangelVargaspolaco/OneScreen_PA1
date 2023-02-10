@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PantallaOne.Models;
@@ -9,11 +9,11 @@ using System.Linq.Expressions;
 
 namespace PantallaOne.BLL
 {
-    public class ClientesBLL  // BLL Para Clientes
+    public class SuplidorBLL  // BLL Para Suplidor
     {
         private Contexto contexto;
 
-        public ClientesBLL(Contexto _contexto)
+        public SuplidorBLL(Contexto _contexto)
         {
             contexto = _contexto;
         }
@@ -24,7 +24,7 @@ namespace PantallaOne.BLL
 
             try
             {
-                existe = contexto.Clientes.Any(c => c.ClienteId == id);
+                existe = contexto.Suplidor.Any(s => s.SuplidorId == id);
             }
             catch (Exception)
             {
@@ -32,18 +32,54 @@ namespace PantallaOne.BLL
             }
             return existe;
         }
-
-       
-
-         public Clientes ExisteCedula(string Cedula)
+        public bool Guardar(Suplidor suplidor)
         {
-            Clientes existe;
+            if (!Existe(suplidor.SuplidorId))
+                return Insertar(suplidor);
+            else
+                return Modificar(suplidor);
+        }
+        private bool Insertar(Suplidor suplidor)
+        {
+            bool Insertado = false;
 
             try
             {
-                existe = contexto.Clientes               
-                .Where( p => p.Cedula
-                .ToLower() == Cedula.ToLower())
+                contexto.Suplidor.Add(suplidor);
+                Insertado = contexto.SaveChanges() > 0;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return Insertado;
+        }
+
+        private bool Modificar(Suplidor suplidor)
+        {
+            bool Insertado = false;
+
+            try
+            {
+                contexto.Entry(suplidor).State = EntityState.Modified;
+                Insertado =  contexto.SaveChanges() > 0;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return Insertado;
+        }
+
+        public Suplidor ExisteNombre(string Nombre)
+        {
+            Suplidor existe;
+
+            try
+            {
+                existe = contexto.Suplidor               
+                .Where( p => p.Nombre
+                .ToLower() == Nombre.ToLower())
                 .AsNoTracking()
                 .SingleOrDefault();
 
@@ -54,58 +90,19 @@ namespace PantallaOne.BLL
             return existe;
         }
 
-        public bool Guardar(Clientes clientes)
+        public Suplidor Buscar(int id)
         {
-            if (!Existe(clientes.ClienteId))
-                return Insertar(clientes);
-            else
-                return Modificar(clientes);
-        }
-        private bool Insertar(Clientes clientes)
-        {
-            bool Insertado = false;
+            Suplidor suplidor = new Suplidor();
 
             try
             {
-                contexto.Clientes.Add(clientes);
-                Insertado = contexto.SaveChanges() > 0;
+               suplidor = contexto.Suplidor.Find(id);
             }
             catch (Exception)
             {
                 throw;
             }
-            return Insertado;
-        }
-
-        private bool Modificar(Clientes clientes)
-        {
-            bool Insertado = false;
-
-            try
-            {
-                contexto.Entry(clientes).State = EntityState.Modified;
-                Insertado =  contexto.SaveChanges() > 0;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            return Insertado;
-        }
-
-        public Clientes Buscar(int id)
-        {
-            Clientes cliente = new Clientes();
-
-            try
-            {
-                cliente = contexto.Clientes.Find(id);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            return cliente;
+            return suplidor;
         }
  
         public async Task<bool> Eliminar(int id)
@@ -114,11 +111,11 @@ namespace PantallaOne.BLL
 
             try
             {
-                var cliente = await contexto.Clientes.FindAsync(id);
+                var suplidor = await contexto.Suplidor.FindAsync(id);
 
-                if (cliente != null)
+                if (suplidor != null)
                 {
-                    contexto.Clientes.Remove(cliente);
+                    contexto.Suplidor.Remove(suplidor);
                     Eliminado = (await contexto.SaveChangesAsync() > 0);
                 }
             }
@@ -126,17 +123,16 @@ namespace PantallaOne.BLL
             {
                 throw;
             }
-            
             return Eliminado;
         }
 
-        public List<Clientes> GetList(Expression<Func<Clientes, bool>> cliente)
+        public List<Suplidor> GetList(Expression<Func<Suplidor, bool>> suplidor)
         {
-            List<Clientes> Lista = new List<Clientes>();
+            List<Suplidor> Lista = new List<Suplidor>();
             try
             {
-                Lista = contexto.Clientes
-                .Where(cliente)
+                Lista = contexto.Suplidor
+                .Where(suplidor)
                 .AsNoTracking()
                 .ToList();
             }

@@ -15,6 +15,5 @@ namespace PantallaOne.Models
 
         [Required(ErrorMessage = "Campo obligatorio. Seleccione una categoria")]
         public string Descripcion{ get; set; } // Nombre de la categoria             
-
     }
 }

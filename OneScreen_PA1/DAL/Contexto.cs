@@ -12,6 +12,7 @@ namespace PantallaOne.DAL
         public DbSet<Ventas> Ventas { get; set; }
         public DbSet<Categoria> Categoria { get; set; }
         public DbSet<Pago> Pago { get; set; }
+        public DbSet<Suplidor> Suplidor { get; set; }
 
         public Contexto(DbContextOptions<Contexto> options) : base(options)
         {}
